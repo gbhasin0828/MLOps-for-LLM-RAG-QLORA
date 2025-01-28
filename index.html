@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ML Model Interface</title>
+</head>
+<body>
+    <h1>Query Processor</h1>
+    <form id="query-form">
+        <label for="query">Enter your query:</label><br>
+        <input type="text" id="query" name="query" required><br><br>
+
+        <label for="model_choice">Choose a model:</label><br>
+        <select id="model_choice" name="model_choice" required>
+            <option value="embeddings">Embeddings Only</option>
+            <option value="bert">Embeddings + BERT</option>
+            <option value="gpt2">Embeddings + GPT-2</option>
+        </select><br><br>
+
+        <button type="submit">Submit</button>
+    </form>
+
+    <h2>Response:</h2>
+    <div id="response"></div>
+
+    <script>
+        document.getElementById("query-form").addEventListener("submit", async (event) => {
+            event.preventDefault();
+            const query = document.getElementById("query").value;
+            const modelChoice = document.getElementById("model_choice").value;
+
+            const response = await fetch("/process_query", {
+                method: "POST",
+                headers: { "Content-Type": "application/x-www-form-urlencoded" },
+                body: new URLSearchParams({ query: query, model_choice: modelChoice }),
+            });
+
+            const data = await response.json();
+            document.getElementById("response").innerText = data.response;
+        });
+    </script>
+</body>
+</html>
