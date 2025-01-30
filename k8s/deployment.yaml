@@ -1,0 +1,48 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: llm-rag-app
+  labels:
+    app: llm-rag-app
+spec:
+  replicas: 2  # Running 2 pods for better availability
+  selector:
+    matchLabels:
+      app: llm-rag-app
+  template:
+    metadata:
+      labels:
+        app: llm-rag-app
+    spec:
+      containers:
+      - name: llm-rag-app
+        image: ghcr.io/your-github-username/llm-rag-app:v1  # Update with correct image version
+        ports:
+        - containerPort: 5000
+        resources:
+          requests:
+            memory: "512Mi"
+            cpu: "250m"
+          limits:
+            memory: "1Gi"
+            cpu: "500m"
+        env:
+        - name: MODEL_NAME
+          value: "llm-rag-v1"
+        - name: DEBUG_MODE
+          value: "true"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: llm-rag-service
+spec:
+  type: NodePort
+  selector:
+    app: llm-rag-app
+  ports:
+    - protocol: TCP
+      port: 5000
+      targetPort: 5000
+      nodePort: 31567  # Fixed NodePort for external access
+

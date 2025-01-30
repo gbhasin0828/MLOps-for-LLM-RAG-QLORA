@@ -1,0 +1,52 @@
+name: Deploy to Minikube
+
+on:
+  push:
+    branches:
+      - main  # Deploy when pushing to main branch
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      # 1️⃣ Checkout the Repository
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      # 2️⃣ Log in to GitHub Container Registry (GHCR)
+      - name: Log in to GHCR
+        run: echo "${{ secrets.GHCR_PAT }}" | docker login ghcr.io -u "${{ github.actor }}" --password-stdin
+
+      # 3️⃣ Build and Push Docker Image
+      - name: Build and Push Docker Image
+        run: |
+          docker build -t ghcr.io/${{ github.actor }}/llm-rag-app:${{ github.sha }} .
+          docker push ghcr.io/${{ github.actor }}/llm-rag-app:${{ github.sha }}
+
+      # 4️⃣ Configure Kubernetes (Minikube)
+      - name: Start Minikube
+        uses: medyagh/setup-minikube@latest
+
+      - name: Configure kubectl
+        run: |
+          kubectl config set-cluster minikube --server=https://127.0.0.1:8443 --insecure-skip-tls-verify=true
+          kubectl config use-context minikube
+
+      # 5️⃣ Deploy to Kubernetes
+      - name: Apply Kubernetes Deployment
+        run: |
+          kubectl create secret docker-registry ghcr-secret \
+            --docker-server=ghcr.io \
+            --docker-username=${{ github.actor }} \
+            --docker-password=${{ secrets.GHCR_PAT }} || true
+
+          kubectl set image deployment/llm-rag-app llm-rag-app=ghcr.io/${{ github.actor }}/llm-rag-app:${{ github.sha }} --record
+          
+          kubectl apply -f k8s/deployment.yaml
+          kubectl apply -f k8s/service.yaml
+
+      # 6️⃣ Verify Deployment
+      - name: Check Running Pods
+        run: kubectl get pods
+
