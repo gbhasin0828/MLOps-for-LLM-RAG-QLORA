@@ -1,0 +1,28 @@
+{"Term":"List_Price","Definition":"The price at which an item is sold to the retailer or customer by the manufacturer."}
+{"Term":"Customer","Definition":"The name of the customer, retailer, or banner."}
+{"Term":"Week_Type","Definition":"Indicates whether the week is a promotion week or a non-promotion week."}
+{"Term":"Merch","Definition":"The method or vehicle used to execute the promotion (e.g., ISF_&_Flyer, ISF_Only, ISF_&_Ad)."}
+{"Term":"Base_Units","Definition":"The number of units sold during a non-promotion week."}
+{"Term":"Item","Definition":"The name of the item sold by the manufacturer to the retailer and subsequently to the consumer."}
+{"Term":"Base_Price","Definition":"The selling price of an item in a non-promotion week."}
+{"Term":"Promo_Price","Definition":"The selling price of an item during a promotion week."}
+{"Term":"Price","Definition":"The price of an item during a given week. Equal to Base_Price if the item is not on promotion, or Promo_Price if it is."}
+{"Term":"Base_Retailer_Margin_Unit","Definition":"The retailer margin per unit during a non-promotion week, calculated as (Base_Price - List_Price + EDLP_Trade_Unit) / Base_Price. Equal to Margin_% if the week is a non-promotion week."}
+{"Term":"Promo_Units","Definition":"The number of units sold during a promotion week."}
+{"Term":"Units","Definition":"The total number of units sold during a given week (Base_Units if no promotion, Promo_Units if on promotion)."}
+{"Term":"Predicted_Units","Definition":"The number of units predicted by the model for a given week."}
+{"Term":"COGS_Unit","Definition":"The cost to produce or manufacture the item."}
+{"Term":"Margin_%","Definition":"The retailer margin percentage, calculated as (Price - List_Price + Trade_Unit) / Price."}
+{"Term":"Min_Margin_%","Definition":"The minimum retail margin required each week."}
+{"Term":"EDLP_Trade_Unit","Definition":"The allowance per unit given to the customer or retailer when the item is not on promotion."}
+{"Term":"Var_Trade_Unit","Definition":"Additional allowance per unit given during a promotion week."}
+{"Term":"Trade_Unit","Definition":"The total amount paid back to the retailer or customer to achieve the desired retail selling price."}
+{"Term":"Trade_Rate","Definition":"Defined as Trade_Unit / List_Price. Formula: Trade_Rate = Trade_Unit / List_Price"}
+{"Term":"Profit_Unit","Definition":"The net profit on the item after all costs and allowances."}
+{"Term":"%_Profit_Unit","Definition":"The percentage of profit per unit, calculated as Profit_Unit / List_Price."}
+{"Term":"Lift_%","Definition":"The increase in unit volume during promotion vs. non-promotion periods. Formula: Lift_% = (Promo_Units - Base_Units) / Base_Units"}
+{"Term":"Inc_Profit","Definition":"Incremental profit when sold on promotion vs. no promotion."}
+{"Term":"ROI","Definition":"Return on investment from running a promotion in a given week. Formula: ROI = Inc_Profit / (Promo_Units * Var_Trade_Unit)"}
+{"Term":"Discount","Definition":"The dollar discount offered during a promotion. Formula: Discount = (Base_Price - Promo_Price)"}
+{"Term":"Predicted_Sales","Definition":"The dollar sales of an item sold during a week. Formula: Predicted_Sales = Predicted_Units * Price"}
+{"Term":"Predicted_Base_Sales","Definition":"The predicted dollar sales assuming the week was a non-promotion week."}
